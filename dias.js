@@ -27,17 +27,21 @@ function escribirMes(month){
         </div>`;
     }
 
-    for (let i = 1; i<=diasTotales(month); i++){
-        if(i=== diaActual && mesActual == 9){
-            dates.innerHTML += `<div class="dia_item hoy">${i}</div>`;
-        }else{
-            dates.innerHTML += `<div class="dia_item">${i}</div>`;
-
+    for (let i = 1; i <= diasTotales(month); i++) {
+        if (i === diaActual && mesActual == 9) {
+            dates.innerHTML += `<div class="dia_item hoy" data-dia="${i}" data-mes="${mesActual}">${i}</div>`;
+        } else {
+            dates.innerHTML += `<div class="dia_item" data-dia="${i}" data-mes="${mesActual}">${i}</div>`;
         }
-        
     }
     
+    
 }
+
+document.querySelectorAll(".dia_item").forEach(dia => {
+    dia.addEventListener("click", click_fecha);});
+
+
 
 function diasTotales(month){
     if(month === -1 ) month == 11;
@@ -89,3 +93,58 @@ function nuevaFecha(){
     dates.textContent= '';
     escribirMes(mesActual);
 }
+
+function click_fecha(event) {
+    let diaSeleccionado = event.currentTarget.getAttribute("data-dia");
+    let mesSeleccionado = event.currentTarget.getAttribute("data-mes");
+    console.log("Quieres reservar:", diaSeleccionado);
+    console.log("del Mes", nombreMeses[mesSeleccionado]);
+    
+    mostrarHoras(diaSeleccionado, mesSeleccionado); // Llamar a la función para mostrar las horas
+}
+
+function mostrarHoras(diaSeleccionado, mesSeleccionado) {
+    // Crear un contenedor para las horas si no existe
+    let contenedorHoras = document.getElementById("horas");
+    if (!contenedorHoras) {
+        contenedorHoras = document.createElement("div");
+        contenedorHoras.id = "horas";
+        document.body.appendChild(contenedorHoras); // O donde desees agregarlo
+    }
+
+    // Limpiar cualquier contenido previo
+    contenedorHoras.innerHTML = "";
+
+    // Título que indica el día y mes seleccionado
+    contenedorHoras.innerHTML = `<h3>Selecciona la hora para el ${diaSeleccionado} de ${nombreMeses[mesSeleccionado]}</h3>`;
+
+    // Generar las 24 horas del día
+    for (let hora = 0; hora < 24; hora++) {
+        contenedorHoras.innerHTML += `
+            <div class="hora_item" data-dia="${diaSeleccionado}" data-mes="${mesSeleccionado}" data-hora="${hora}">
+                ${hora < 10 ? '0' + hora : hora}:00
+            </div>
+        `;
+    }
+
+    // Añadir eventos de clic en las horas
+    document.querySelectorAll(".hora_item").forEach(hora => {
+        hora.addEventListener("click", click_hora);
+    });
+}
+
+
+
+function click_hora(event) {
+    let diaSeleccionado = event.currentTarget.getAttribute("data-dia");
+    let mesSeleccionado = event.currentTarget.getAttribute("data-mes");
+    let horaSeleccionada = event.currentTarget.getAttribute("data-hora");
+
+    console.log(`Reserva realizada para el ${diaSeleccionado} de ${nombreMeses[mesSeleccionado]} a las ${horaSeleccionada}:00`);
+    
+    // Aquí puedes agregar la lógica para realizar la reserva
+}
+
+document.addEventListener("DOMContentLoaded", () => {console.log("el documento cargo")});
+
+

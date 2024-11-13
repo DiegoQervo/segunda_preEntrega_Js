@@ -66,6 +66,25 @@ body {
 
 }
 
+#horas {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    width: 200px; /* Ajusta el tamaño como desees */
+}
+
+.hora_item {
+    cursor: pointer;
+    padding: 10px;
+    margin: 5px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+}
+
+.hora_item:hover {
+    background-color: #d0d0d0;
+}
 
 
 
